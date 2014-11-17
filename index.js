@@ -25,6 +25,12 @@ GoodMongoDb.prototype.start = function(emitter, callback) {
   emitter.on('report', this._handleEvent.bind(this));
   MongoClient.connect(this._settings.connectionUrl, function(err, db) {
     self._db = db;
+
+    if(!err && self._settings.ttl) {
+      var collection = db.collection(self._settings.collection);
+      collection.ensureIndex({'timestamp': 1}, {expireAfterSeconds: self._settings.ttl}, function() {});
+    }
+
     callback(err);
   });
 };

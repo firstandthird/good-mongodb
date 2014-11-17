@@ -12,6 +12,7 @@ var options = {
     {
       reporter: GoodMongoDb,
       args: ['mongodb://localhost:27017/good-mongodb', {
+        ttl: 30
         /*
         events: {
           ops: '*',
