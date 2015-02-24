@@ -25,9 +25,6 @@ var options = {
         ttl: 30,
         
         events: {
-          ops: '*',
-          request: '*',
-          log: '*',
           error: '*'
         }
         
@@ -57,6 +54,9 @@ server.register({
         request.log(['log', 'custom'], {
           test: 123
         });
+
+        request.methods.getSomething();
+
         request.server.log('test', { test: 123 });
         reply({
           test: 123
