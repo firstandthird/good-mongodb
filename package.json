@@ -15,6 +15,7 @@
     "mongodb": "~2.0"
   },
   "devDependencies": {
+    "boom": "^2.6.1",
     "good-console": "^4.1.0",
     "hapi": "^8.2.0"
   }
