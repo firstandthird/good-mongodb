@@ -9,12 +9,13 @@
     "url": "https://github.com/firstandthird/good-mongodb.git"
   },
   "dependencies": {
-    "good-reporter": "^2.0.0",
-    "mongodb": "^1.4.18",
-    "hoek": "^2.5.0"
+    "good": "^5.1.2",
+    "good-reporter": "^3.0.1",
+    "hoek": "^2.11.0",
+    "mongodb": "~2.0"
   },
   "devDependencies": {
-    "good": "^3.0.0",
-    "hapi": "^6.11.1"
+    "good-console": "^4.1.0",
+    "hapi": "^8.2.0"
   }
 }
