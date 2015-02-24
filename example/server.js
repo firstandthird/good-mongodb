@@ -1,33 +1,43 @@
-var Good = require('good');
 var Hapi = require('hapi');
 var GoodMongoDb = require('../');
+  
+var server = new Hapi.Server();
 
-var server = new Hapi.Server(8081);
+server.connection({ port: 8081 });
 
 var options = {
   //extendedRequests: true,
-  reporters: [{
-      reporter: Good.GoodConsole
+  reporters: [
+    {
+      reporter: require('good-console'),
+      args: [
+        {
+          ops: '*',
+          request: '*',
+          log: '*',
+          error: '*'
+        }
+      ]
     },
     {
       reporter: GoodMongoDb,
       args: ['mongodb://localhost:27017/good-mongodb', {
-        ttl: 30
-        /*
+        ttl: 30,
+        
         events: {
           ops: '*',
           request: '*',
           log: '*',
           error: '*'
         }
-        */
+        
       }]
     }
   ]
 };
 
-server.pack.register({
-    plugin: require('good'),
+server.register({
+    register: require('good'),
     options: options
 }, function (err) {
 
