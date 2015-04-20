@@ -8,28 +8,28 @@ server.connection({ port: 8081 });
 
 var options = {
   //extendedRequests: true,
+  requestPayload: true,
   reporters: [
     {
       reporter: require('good-console'),
-      args: [
-        {
-          ops: '*',
-          response: '*',
-          log: '*',
-          error: '*'
-        }
-      ]
+      events: {
+        //ops: '*',
+        response: '*',
+        log: '*',
+        error: '*'
+      }
     },
     {
       reporter: GoodMongoDb,
-      args: ['mongodb://localhost:27017/good-mongodb', {
+      events: {
+        response: '*',
+        error: '*',
+        log: '*',
+      },
+      config: {
+        connectionUrl: 'mongodb://localhost:27017/good-mongodb',
         ttl: 30,
-        events: {
-          response: '*',
-          error: '*',
-          log: '*',
-        }
-      }]
+      }
     }
   ]
 };
@@ -51,13 +51,11 @@ server.register({
     server.route([
       {
         path: '/',
-        method: 'GET',
+        method: '*',
         handler: function(request, reply) {
           request.log(['log', 'custom'], {
             test: 123
           });
-
-          request.methods.getSomething();
 
           request.server.log('test', { test: 123 });
           reply({
@@ -78,6 +76,14 @@ server.register({
         method: '*',
         handler: function(request, reply) {
           reply(Boom.badRequest('invalid'));
+        }
+      },
+      {
+        path: '/stop',
+        method: 'GET',
+        handler: function(request, reply) {
+          reply('stopping');
+          request.server.stop();
         }
       }
     ]);
