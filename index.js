@@ -10,7 +10,7 @@ var defaults = {
 var GoodMongoDb = function(events, config) {
 
   if (!(this instanceof GoodMongoDb)) {
-      return new GoodMongoDb(events, config);
+    return new GoodMongoDb(events, config);
   }
 
   config = config || {};
@@ -34,10 +34,14 @@ GoodMongoDb.prototype.init = function(stream, emitter, callback) {
 
     self._db = db;
 
+    var collection = db.collection(self._settings.collection);
     if (!err && self._settings.ttl) {
-      var collection = db.collection(self._settings.collection);
-      collection.ensureIndex({'timestamp': 1}, {expireAfterSeconds: self._settings.ttl}, function() {});
+      collection.createIndex({'timestamp': 1}, {expireAfterSeconds: self._settings.ttl}, function() {});
     }
+
+    collection.createIndex({ 'event': 1 }, { background: 1 }, function() {});
+    collection.createIndex({ 'tags': 1 }, { background: 1 }, function() {});
+    collection.createIndex({ 'event': 1, 'statusCode': 1 }, { background: 1 }, function() {});
 
     self._streams.squeeze.on('data', function (data) {
       self.report(data);
