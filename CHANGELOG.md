@@ -1,4 +1,10 @@
 
+0.3.0 / 2015-05-04
+==================
+
+  * create indexes for event, tags, event and statusCode
+
+
 0.2.0 / 2015-04-20
 ==================
 
