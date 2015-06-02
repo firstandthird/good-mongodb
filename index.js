@@ -65,6 +65,10 @@ GoodMongoDb.prototype.report = function(eventData) {
   var collection = this._db.collection(this._settings.collection);
   var data = Hoek.clone(eventData);
   data.timestamp = new Date(eventData.timestamp);
+  if (eventData.event == 'error') {
+    data.message = eventData.error.message;
+    data.stack = eventData.error.stack;
+  }
   collection.insert(data, function() {
   });
 };

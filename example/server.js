@@ -28,7 +28,7 @@ var options = {
       },
       config: {
         connectionUrl: 'mongodb://localhost:27017/good-mongodb',
-        ttl: 30,
+        ttl: 60*5,
       }
     }
   ]
@@ -68,6 +68,15 @@ server.register({
         method: 'GET',
         handler: function(request, reply) {
           request.methods.getSomething();
+          reply('oops');
+        }
+      },
+      {
+        path: '/internal2',
+        method: 'GET',
+        handler: function(request, reply) {
+          var test = {};
+          test.email.user = 12;
           reply('oops');
         }
       },
